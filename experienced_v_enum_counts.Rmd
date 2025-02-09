@@ -1,0 +1,44 @@
+---
+title: "experienced_v_enum_counts"
+author: "Camille Zimmer"
+date: "2025-02-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Initialize Libraries
+rm(list = ls())
+library(tidyverse)
+
+
+# Read in CSV
+data = read_csv("Inputs/Enumerators_v_Experienced_Counts.csv", skip = 0)
+```
+
+
+```{r compare}
+#Paired T-test to compare enumreators' counts to my counts
+#UNICEF - Malawi fieldwork
+#Last modified: APril 30, 2019 CZ
+
+data_x = data$Enumerator
+data_y = data$Experienced
+
+
+#T-test
+t.test(data_x, data_y, paired = TRUE, alternative = "two.sided")
+
+
+
+#Plot results
+boxplot(data_x, data_y, 
+        names = c("18 Hours", "24 Hours"), 
+        ylab = "CFU/100 mL", 
+        main = "Compare Counts 18H vs 24H Incubation Time/Malawi Data" )
+
+#count number of data points
+length(data_x)
+
+```

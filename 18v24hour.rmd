@@ -14,7 +14,7 @@ rm(list = ls())
 library(tidyverse)
 
 
-# All CSV files rate organized by author and year of paper
+# Read in CSV
 data1 = read_csv("Inputs/18v24hour.csv", skip = 15)
 ```
 
