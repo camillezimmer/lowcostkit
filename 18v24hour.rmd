@@ -1,0 +1,51 @@
+---
+title: "18v24hour"
+author: "Camille Zimmer"
+date: "June 21, 2020"
+output: word_document
+---
+
+##The following code is to analyze paired data of petri dishes counted after 18 vs 24 hours of incubation; 0.5 is used for non detects
+
+```{r Initialize, include=FALSE, message=FALSE, error=FALSE, echo = TRUE}
+
+# Initialize Libraries
+rm(list = ls())
+library(tidyverse)
+
+
+# All CSV files rate organized by author and year of paper
+data1 = read_csv("Inputs/18v24hour.csv", skip = 15)
+```
+
+Compare field counts
+```{r Compare field counts, error=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+
+#Check normal assumption - violated!
+shapiro.test(data1$count_field_18)
+shapiro.test(data1$count_field_24)
+
+# Proceed to non-parametric tests
+# By count
+wilcox.test(data1$count_field_18, data1$count_field_24, paired = TRUE)
+
+#By risk category
+wilcox.test(data1$cat_field_18, data1$cat_field_24, paired = TRUE)
+
+```
+
+Compare lab counts
+```{r Compare lab counts, error=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+
+#Check normal assumption - super violated!!
+shapiro.test(data1$count_lab_18)
+shapiro.test(data1$count_lab_24)
+
+# Proceed to non-parametric tests
+# By count
+wilcox.test(data1$count_lab_18, data1$count_lab_24, paired = TRUE)
+
+# By risk category - N/A two datasets are identical
+wilcox.test(data1$cat_lab_18, data1$cat_lab_24, paired = TRUE)
+
+```
